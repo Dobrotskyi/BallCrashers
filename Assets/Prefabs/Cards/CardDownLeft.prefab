@@ -98,11 +98,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6762634248859898678, guid: b8f11290d3a49e24c96198f8d843733b, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.92387956
+      value: 0.92387956
       objectReference: {fileID: 0}
     - target: {fileID: 6762634248859898678, guid: b8f11290d3a49e24c96198f8d843733b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -135
+      value: 135
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

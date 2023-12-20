@@ -6,11 +6,14 @@ public class ArrowCardsDeck : MonoBehaviour
     public const int ARROWS_AMT = 3;
     protected List<Arrow> _arrowCards = new();
 
-    private void Awake()
+    protected virtual void Awake()
     {
         CreateArrowDeck();
         LogArrows();
+        AwakeAdditionalSetup();
     }
+    protected virtual void AwakeAdditionalSetup() { }
+
     private void CreateArrowDeck()
     {
         for (int i = 0; i < ARROWS_AMT; i++)

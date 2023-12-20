@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Arrow
 {
-    public const float FORCE = 30f;
+    public const float FORCE = 420f;
     public enum ArrowType
     {
         Left,
@@ -34,7 +34,7 @@ public class Arrow
 
     public void Launch(Rigidbody2D _rb)
     {
-        if (_used) return;
+        //if (_used) return;
 
         _rb.AddForce(FORCE * Directions[Type]);
         _used = true;
