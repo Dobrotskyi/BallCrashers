@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArrowCardsDeck : MonoBehaviour
+public abstract class ArrowCardsDeck : MonoBehaviour
 {
     protected List<Arrow> _arrowCards = new();
 

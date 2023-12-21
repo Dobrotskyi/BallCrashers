@@ -1,46 +1,68 @@
+using System;
+using System.Linq;
 using UnityEngine;
 
 public class PointsCounter : MonoBehaviour
 {
+    public event Action<string> PointsAdded;
     public const int FOR_BALL_HIT = 1;
     public const int FOR_WALL_HIT = 2;
 
+    public int Points
+    {
+        private set
+        {
+            _points = value;
+            PointsAdded?.Invoke(name);
+        }
+        get
+        {
+            return _points;
+        }
+    }
+    private int _points = 0;
+
     private Vector2 _velocity;
+    private Collider2D _triggerCollider;
+    private Rigidbody2D _rb;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        _velocity = transform.GetComponent<Rigidbody2D>().velocity.normalized;
+        _velocity = _rb.velocity.normalized;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.transform.TryGetComponent(out Ball _))
         {
-            if (Mathf.Abs(_velocity.y) > Mathf.Abs(_velocity.x))
+            if (_velocity != Vector2.zero)
             {
-                if (_velocity.y > 0)
+                float angle = Vector2.SignedAngle(_velocity, (collision.contacts[0].point - (Vector2)transform.position).normalized);
+                if (Mathf.Abs(angle) < 90)
                 {
-                    if (collision.contacts[0].point.y > transform.position.y)
-                        Debug.Log($"{name}1, +point");
+                    Debug.Log($"{name} + point");
+                    Points += FOR_BALL_HIT;
                 }
-                else if (_velocity.y < 0)
-                    if (collision.contacts[0].point.y < transform.position.y)
-                        Debug.Log($"{name}2, +point");
-            }
-            else
-            {
-                if (_velocity.x > 0)
-                {
-                    if (collision.contacts[0].point.x > transform.position.x)
-                        Debug.Log($"{name}3, +point");
-                }
-                else if (_velocity.x < 0)
-                    if (collision.contacts[0].point.x < transform.position.x)
-                        Debug.Log($"{name}4, +point");
+                _velocity = Vector2.zero;
             }
         }
 
         if (collision.gameObject.CompareTag("Bonus"))
+        {
             Debug.Log($"{name}, +{FOR_WALL_HIT}");
+            Points += FOR_WALL_HIT;
+        }
+    }
+
+    private void Awake()
+    {
+        _triggerCollider = GetComponents<Collider2D>().Where(c => c.isTrigger).First();
+        _rb = GetComponent<Rigidbody2D>();
+        _velocity = Vector2.zero;
+    }
+
+    private void Update()
+    {
+        _triggerCollider.offset = _rb.velocity.normalized / 2;
     }
 }
