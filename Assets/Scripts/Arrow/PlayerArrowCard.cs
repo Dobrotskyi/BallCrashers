@@ -1,7 +1,10 @@
+using System;
 using UnityEngine;
 
-public class ArrowCard : MonoBehaviour
+public class PlayerArrowCard : MonoBehaviour
 {
+    public static event Action PlayerMadeTurn;
+
     private Rigidbody2D _playerRB;
     private Arrow _arrow;
 
@@ -10,6 +13,7 @@ public class ArrowCard : MonoBehaviour
     public void ShootPlayer()
     {
         _arrow.Launch(_playerRB);
+        PlayerMadeTurn?.Invoke();
     }
 
     private void Awake()

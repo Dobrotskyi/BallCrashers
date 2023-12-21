@@ -30,19 +30,19 @@ public class Arrow
                             };
 
     public ArrowType Type { private set; get; }
-    private bool _used;
+    public bool Used { private set; get; }
 
     public void Launch(Rigidbody2D _rb)
     {
-        //if (_used) return;
+        if (Used) return;
 
         _rb.AddForce(FORCE * Directions[Type]);
-        _used = true;
+        Used = true;
     }
 
     public Arrow()
     {
         Type = RandomEnum.GetRandom<ArrowType>();
-        _used = false;
+        Used = false;
     }
 }

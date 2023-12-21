@@ -21,7 +21,7 @@ public class PlayerDeck : ArrowCardsDeck
         foreach (var arrow in _arrowCards)
         {
             GameObject button = Instantiate(_prefabsList.Where(p => p.ArrowType == arrow.Type).First().Prefab, _deckGroup.transform);
-            button.GetComponent<ArrowCard>().SetArrow(arrow);
+            button.GetComponent<PlayerArrowCard>().SetArrow(arrow);
         }
     }
 }
