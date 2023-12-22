@@ -1,16 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Bonus : MonoBehaviour
 {
     [SerializeField] private ParticleSystem _effect;
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.transform.TryGetComponent(out Ball _))
         {
-            Instantiate(_effect, collision.contacts[0].point, Quaternion.identity);
+            Instantiate(_effect, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
     }

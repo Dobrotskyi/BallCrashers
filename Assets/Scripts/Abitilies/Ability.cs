@@ -83,7 +83,7 @@ public abstract class Ability : MonoBehaviour
         if (AbilityInUse)
             InvokeCanceled();
         CancelUsageButton.AbilityCanceled += InvokeCanceled;
-        //EndLevelPortal.LevelFinished += InvokeCanceled;
+        EndLevelPortal.LevelFinished += InvokeCanceled;
         if (_priceField != null)
             PlayerInfoHolder.CoinsAmtUpdated += CheckIfCanBuy;
     }
@@ -91,7 +91,7 @@ public abstract class Ability : MonoBehaviour
     private void OnDestroy()
     {
         CancelUsageButton.AbilityCanceled -= InvokeCanceled;
-        //EndLevelPortal.LevelFinished -= InvokeCanceled;
+        EndLevelPortal.LevelFinished -= InvokeCanceled;
         if (_priceField != null)
             PlayerInfoHolder.CoinsAmtUpdated -= CheckIfCanBuy;
     }

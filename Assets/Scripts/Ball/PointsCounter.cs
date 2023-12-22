@@ -40,6 +40,11 @@ public class PointsCounter : MonoBehaviour
                 Debug.Log($"{name} +{FOR_FINISH}");
                 _finished = true;
             }
+            if (collision.gameObject.CompareTag("Bonus"))
+            {
+                Debug.Log($"{name}, +{FOR_WALL_HIT}");
+                Points += FOR_WALL_HIT;
+            }
         }
     }
 
@@ -57,12 +62,6 @@ public class PointsCounter : MonoBehaviour
                 }
                 _velocity = Vector2.zero;
             }
-        }
-
-        if (collision.gameObject.CompareTag("Bonus"))
-        {
-            Debug.Log($"{name}, +{FOR_WALL_HIT}");
-            Points += FOR_WALL_HIT;
         }
     }
 

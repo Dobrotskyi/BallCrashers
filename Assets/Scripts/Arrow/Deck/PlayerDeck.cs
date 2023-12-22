@@ -18,6 +18,7 @@ public class PlayerDeck : ArrowCardsDeck
 
     [SerializeField] private List<PrefabArrowTypePair> _prefabsList;
     [SerializeField] private HorizontalLayoutGroup _deckGroup;
+    [SerializeField] private bool _startHidden = true;
     private float _startHeight = 0;
 
     public bool DeckUsed => _arrowCards.Where(a => a.Used).Count() > 0;
@@ -98,8 +99,17 @@ public class PlayerDeck : ArrowCardsDeck
     protected override void AwakeAdditionalSetup()
     {
         _startHeight = GetComponent<RectTransform>().sizeDelta.y;
+        EndLevelPortal.LevelFinished += StopAllCoroutines;
+        if (_startHidden)
+            HideDeck();
+
         foreach (var arrow in _arrowCards)
             CreateCard(arrow);
+    }
+
+    private void OnDestroy()
+    {
+        EndLevelPortal.LevelFinished -= StopAllCoroutines;
     }
 
     private void CreateCard(Arrow arrow)
