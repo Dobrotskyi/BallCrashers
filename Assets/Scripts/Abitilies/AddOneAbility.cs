@@ -14,8 +14,17 @@ public class AddOneAbility : Ability
     {
         InvokeStarted();
         yield return new WaitForEndOfFrame();
-        FindObjectOfType<PlayerDeck>().AddOne();
+        FindObjectOfType<PlayerDeck>().AddOneRandom();
         yield return new WaitForEndOfFrame();
         InvokeFinished();
+    }
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+
+        PlayerDeck deck = FindObjectOfType<PlayerDeck>();
+        if (deck != null && deck.DeckUsed)
+            _button.interactable = false;
     }
 }

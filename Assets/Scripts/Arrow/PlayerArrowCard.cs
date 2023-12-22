@@ -1,5 +1,4 @@
-using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -44,6 +43,11 @@ public class PlayerArrowCard : MonoBehaviour
         _playerRB = GameObject.FindWithTag("Player").GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _deckGroup = GetComponentInParent<HorizontalLayoutGroup>();
+        if (FindObjectOfType<PlayerDeck>().DeckUsed)
+        {
+            GetComponentsInChildren<Button>().ToList().ForEach(button => { button.interactable = false; });
+            _animator.SetBool("Blocked", true);
+        }
         PlayerDeck.TurnEnded += OnTurn;
     }
 
@@ -56,9 +60,6 @@ public class PlayerArrowCard : MonoBehaviour
     {
         if (!_animator.GetBool("Blocked"))
             GetComponentsInChildren<Button>().ToList().ForEach(button => { button.interactable = false; });
-
-        Debug.Log(name);
-        Debug.Log(_arrow.Used);
         if (_arrow.Used)
         {
             _animator.SetBool("Blocked", false);
@@ -66,6 +67,5 @@ public class PlayerArrowCard : MonoBehaviour
         }
         else
             _animator.SetBool("Blocked", true);
-
     }
 }

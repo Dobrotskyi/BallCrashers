@@ -30,7 +30,7 @@ public class Arrow
                             };
 
     public ArrowType Type { private set; get; }
-    public bool Used { private set; get; }
+    public bool Used { private set; get; } = false;
 
     public void Launch(Rigidbody2D _rb)
     {
@@ -43,6 +43,10 @@ public class Arrow
     public Arrow()
     {
         Type = RandomEnum.GetRandom<ArrowType>();
-        Used = false;
+    }
+
+    public Arrow(ArrowType type)
+    {
+        Type = type;
     }
 }

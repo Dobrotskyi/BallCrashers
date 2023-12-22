@@ -16,6 +16,54 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 45
       objectReference: {fileID: 0}
+    - target: {fileID: 4117638941793812438, guid: 29b2db5a65176ba49bff743e7b963024, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117638941793812438, guid: 29b2db5a65176ba49bff743e7b963024, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117638941793812438, guid: 29b2db5a65176ba49bff743e7b963024, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117638941793812438, guid: 29b2db5a65176ba49bff743e7b963024, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117638941793812438, guid: 29b2db5a65176ba49bff743e7b963024, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117638941793812438, guid: 29b2db5a65176ba49bff743e7b963024, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4762443717330722335, guid: 29b2db5a65176ba49bff743e7b963024, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4762443717330722335, guid: 29b2db5a65176ba49bff743e7b963024, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4762443717330722335, guid: 29b2db5a65176ba49bff743e7b963024, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4762443717330722335, guid: 29b2db5a65176ba49bff743e7b963024, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4762443717330722335, guid: 29b2db5a65176ba49bff743e7b963024, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4762443717330722335, guid: 29b2db5a65176ba49bff743e7b963024, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8683120460158654522, guid: 29b2db5a65176ba49bff743e7b963024, type: 3}
       propertyPath: m_Name
       value: CardUpperLeft

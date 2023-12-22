@@ -22,25 +22,6 @@ public class PlayerDeck : ArrowCardsDeck
 
     public bool DeckUsed => _arrowCards.Where(a => a.Used).Count() > 0;
 
-    public void AddOne()
-    {
-        Arrow newArrow = new();
-        _arrowCards.Add(newArrow);
-        CreateCard(newArrow);
-    }
-
-    public void Reshuffle()
-    {
-        int amt = _arrowCards.Count;
-        foreach (Transform child in _deckGroup.transform)
-            Destroy(child.gameObject);
-        _arrowCards.Clear();
-
-        for (int i = 0; i < amt; i++)
-            _arrowCards.Add(new Arrow());
-        AwakeAdditionalSetup();
-    }
-
     public void HideDeck()
     {
         StartCoroutine(ChangeHeight(0));
@@ -72,6 +53,31 @@ public class PlayerDeck : ArrowCardsDeck
         rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, endValue);
     }
 
+    public void AddOneRandom()
+    {
+        Arrow newArrow = new();
+        _arrowCards.Add(newArrow);
+        CreateCard(newArrow);
+    }
+
+    public void AddArrow(Arrow arrow)
+    {
+        _arrowCards.Add(arrow);
+        CreateCard(arrow);
+    }
+
+    public void Reshuffle()
+    {
+        int amt = _arrowCards.Count;
+        foreach (Transform child in _deckGroup.transform)
+            Destroy(child.gameObject);
+        _arrowCards.Clear();
+
+        for (int i = 0; i < amt; i++)
+            _arrowCards.Add(new Arrow());
+        AwakeAdditionalSetup();
+    }
+
     public void StartTurn()
     {
         StartCoroutine(MakeTurns());
@@ -79,12 +85,12 @@ public class PlayerDeck : ArrowCardsDeck
 
     private IEnumerator MakeTurns()
     {
-        var cardArrows = _deckGroup.transform.GetComponentsInChildren<PlayerArrowCard>();
-
-        for (int i = 0; i < cardArrows.Length; i++)
+        int childIndex = 0;
+        while (childIndex < _deckGroup.transform.childCount)
         {
-            cardArrows[i].ShootPlayer();
+            _deckGroup.transform.GetChild(childIndex).GetComponent<PlayerArrowCard>().ShootPlayer();
             TurnEnded?.Invoke();
+            childIndex++;
             yield return new WaitForSeconds(2);
         }
     }
