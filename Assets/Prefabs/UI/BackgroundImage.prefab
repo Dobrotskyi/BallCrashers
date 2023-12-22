@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6706688598682093199}
   - component: {fileID: 6268043466397153700}
   - component: {fileID: 4897732878335888720}
+  - component: {fileID: 4900470548305554689}
   m_Layer: 0
   m_Name: BackgroundImage
   m_TagString: Untagged
@@ -90,3 +91,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AspectMode: 2
   m_AspectRatio: 2
+--- !u!114 &4900470548305554689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6177447539044366157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7ac61e8481288e448e6727c744e7833, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

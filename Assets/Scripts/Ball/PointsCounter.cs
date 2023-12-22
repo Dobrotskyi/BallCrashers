@@ -24,7 +24,7 @@ public class PointsCounter : MonoBehaviour
     private int _points = 0;
 
     [SerializeField] private TextMeshProUGUI _amtField;
-    private Vector2 _velocity;
+    private Vector2 _velocityBeforeHit;
     private Collider2D _triggerCollider;
     private Rigidbody2D _rb;
     private bool _finished;
@@ -32,7 +32,7 @@ public class PointsCounter : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent(out Ball _))
-            _velocity = _rb.velocity.normalized;
+            _velocityBeforeHit = _rb.velocity.normalized;
         else
         {
             if (collision.TryGetComponent(out EndLevelPortal _) && !_finished)
@@ -53,15 +53,15 @@ public class PointsCounter : MonoBehaviour
     {
         if (collision.transform.TryGetComponent(out Ball _))
         {
-            if (_velocity != Vector2.zero)
+            if (_velocityBeforeHit != Vector2.zero)
             {
-                float angle = Vector2.SignedAngle(_velocity, (collision.contacts[0].point - (Vector2)transform.position).normalized);
+                float angle = Vector2.SignedAngle(_velocityBeforeHit, (collision.contacts[0].point - (Vector2)transform.position).normalized);
                 if (Mathf.Abs(angle) < 90)
                 {
                     Debug.Log($"{name} + point");
                     Points += FOR_BALL_HIT;
                 }
-                _velocity = Vector2.zero;
+                _velocityBeforeHit = Vector2.zero;
             }
         }
     }
@@ -70,7 +70,7 @@ public class PointsCounter : MonoBehaviour
     {
         _triggerCollider = GetComponents<Collider2D>().Where(c => c.isTrigger).First();
         _rb = GetComponent<Rigidbody2D>();
-        _velocity = Vector2.zero;
+        _velocityBeforeHit = Vector2.zero;
     }
 
     private void Update()

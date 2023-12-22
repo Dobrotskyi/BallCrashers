@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -24,11 +25,17 @@ public class LevelFinishedPopUp : MonoBehaviour
 
     private void OnGameOver()
     {
-        System.Threading.Thread.Sleep(10);
+        StartCoroutine(ShowResults());
+    }
 
-        string winnerTag = FindObjectsOfType<PointsCounter>().OrderByDescending(c => c.Points).First().gameObject.tag;
-        Debug.Log(winnerTag);
-        if (winnerTag == "Player")
+    private IEnumerator ShowResults()
+    {
+        yield return new WaitForEndOfFrame();
+        var pointTable = FindObjectsOfType<PointsCounter>().OrderByDescending(c => c.Points).ToArray();
+        var firstPlace = pointTable[0];
+        var secondPlace = pointTable[1];
+
+        if ((firstPlace.gameObject.CompareTag("Player") && firstPlace.Points > 0) && (firstPlace.Points != secondPlace.Points))
         {
             _passedBody.SetActive(true);
             _coinsRewardField.text = "+" + PlayerInfoHolder.REWARD;

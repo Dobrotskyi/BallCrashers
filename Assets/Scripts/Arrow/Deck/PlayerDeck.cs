@@ -99,11 +99,12 @@ public class PlayerDeck : ArrowCardsDeck
 
     protected override void AwakeAdditionalSetup()
     {
-        _startHeight = GetComponent<RectTransform>().sizeDelta.y;
         EndLevelPortal.Finished += StopAllCoroutines;
 
+        RectTransform rectTr = GetComponent<RectTransform>();
+        _startHeight = rectTr.sizeDelta.y;
         if (_startHidden)
-            HideDeck();
+            rectTr.sizeDelta = new Vector2(rectTr.sizeDelta.x, 0);
 
         foreach (var arrow in _arrowCards)
             CreateCard(arrow);

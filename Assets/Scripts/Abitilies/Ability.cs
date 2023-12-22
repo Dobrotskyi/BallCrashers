@@ -18,7 +18,9 @@ public abstract class Ability : MonoBehaviour
     {
         Teleportation,
         Reshuffle,
-        AddOne
+        AddOne,
+        Hammer,
+        Order
     }
     protected abstract Abilities _abilityType { get; }
     [SerializeField] private TextMeshProUGUI _amountField;
@@ -28,7 +30,6 @@ public abstract class Ability : MonoBehaviour
 
     private AbilityUseDummy _dummy;
 
-    protected abstract IEnumerator Use();
     public void UseAbility()
     {
         if (Amount == 0)
@@ -36,6 +37,7 @@ public abstract class Ability : MonoBehaviour
         if (!AbilityInUse)
             _dummy.StartCoroutine(Use());
     }
+    protected abstract IEnumerator Use();
 
     public void ShowInfo()
     {
