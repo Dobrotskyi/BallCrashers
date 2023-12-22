@@ -78,7 +78,6 @@ public abstract class Ability : MonoBehaviour
     protected virtual void Awake()
     {
         _button = transform.GetComponentInChildren<Button>();
-        Debug.Log(_button);
         _dummy = FindObjectOfType<AbilityUseDummy>(true);
         if (AbilityInUse)
             InvokeCanceled();
