@@ -7,6 +7,7 @@ public class PointsCounter : MonoBehaviour
     public event Action<string> PointsAdded;
     public const int FOR_BALL_HIT = 1;
     public const int FOR_WALL_HIT = 2;
+    public const int FOR_FINISH = 3;
 
     public int Points
     {
@@ -25,10 +26,21 @@ public class PointsCounter : MonoBehaviour
     private Vector2 _velocity;
     private Collider2D _triggerCollider;
     private Rigidbody2D _rb;
+    private bool _finished;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        _velocity = _rb.velocity.normalized;
+        if (collision.TryGetComponent(out Ball _))
+            _velocity = _rb.velocity.normalized;
+        else
+        {
+            if (collision.TryGetComponent(out EndLevelPortal _) && !_finished)
+            {
+                Points += FOR_FINISH;
+                Debug.Log($"{name} +{FOR_FINISH}");
+                _finished = true;
+            }
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
