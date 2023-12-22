@@ -1,19 +1,17 @@
 using UnityEngine;
 
-public class ArrowCollectable : MonoBehaviour
+[RequireComponent(typeof(AudioSource))]
+public class ArrowCollectable : OnBallTouchEffectsPlayer
 {
     [SerializeField] private Arrow.ArrowType _arrowType;
-    private void OnTriggerEnter2D(Collider2D collision)
+
+    protected override void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
             FindObjectOfType<PlayerDeck>().AddArrow(new(_arrowType));
-            DestroySelf();
+            transform.GetChild(0).gameObject.SetActive(false);
+            base.OnTriggerEnter2D(collision);
         }
-    }
-
-    private void DestroySelf()
-    {
-        Destroy(gameObject);
     }
 }

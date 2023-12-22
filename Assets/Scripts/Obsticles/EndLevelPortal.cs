@@ -11,6 +11,12 @@ public class EndLevelPortal : MonoBehaviour
     private AudioSource _as;
     private List<string> _finishedBalls = new();
 
+    private void Start()
+    {
+        _as = GetComponent<AudioSource>();
+        _as.volume = SoundSettings.EFFECTS_VOLUME;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent(out Ball _))
@@ -24,11 +30,5 @@ public class EndLevelPortal : MonoBehaviour
                 _as.Play();
             _finishedBalls.Add(collision.gameObject.name);
         }
-    }
-
-    private void Start()
-    {
-        _as = GetComponent<AudioSource>();
-        _as.volume = SoundSettings.EFFECTS_VOLUME;
     }
 }
