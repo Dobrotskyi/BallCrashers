@@ -12,6 +12,7 @@ public class PlayerArrowCard : MonoBehaviour
     private Rigidbody2D _playerRB;
     private Arrow _arrow;
     private bool _onCooldown;
+    private Animator _animator;
 
     public void SetArrow(Arrow arrow) => _arrow = arrow;
 
@@ -28,6 +29,7 @@ public class PlayerArrowCard : MonoBehaviour
     {
         _playerRB = GameObject.FindWithTag("Player").GetComponent<Rigidbody2D>();
         var button = GetComponent<Button>();
+        _animator = GetComponent<Animator>();
         PlayerMadeTurn += OnTurn;
     }
 
@@ -49,18 +51,13 @@ public class PlayerArrowCard : MonoBehaviour
         if (_arrow.Used)
             button.interactable = false;
         else
-        {
-            button.enabled = false;
-            button.targetGraphic.color = new Color(0, 0, 0, 0.5f);
-        }
+            _animator.SetBool("Blocked", true);
+
         float time = Time.time;
         while (Time.time - time < COOLDOWN)
             yield return new WaitForEndOfFrame();
         if (!_arrow.Used)
-        {
-            button.enabled = true;
-            button.targetGraphic.color = Color.white;
-        }
+            _animator.SetBool("Blocked", false);
 
         _onCooldown = false;
     }

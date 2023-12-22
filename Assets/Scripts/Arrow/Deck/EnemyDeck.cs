@@ -20,6 +20,8 @@ public class EnemyDeck : ArrowCardsDeck
     private void MakeTurn()
     {
         var unusedArrows = UnusedArrows();
+        if (unusedArrows.Count == 0)
+            return;
         unusedArrows[0].Launch(_rb);
     }
 

@@ -17,7 +17,8 @@ public abstract class Ability : MonoBehaviour
     public enum Abilities
     {
         Teleportation,
-        Reshuffle
+        Reshuffle,
+        AddOne
     }
     protected abstract Abilities _abilityType { get; }
     [SerializeField] private TextMeshProUGUI _amountField;
