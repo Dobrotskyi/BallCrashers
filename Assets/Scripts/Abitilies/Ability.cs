@@ -16,10 +16,8 @@ public abstract class Ability : MonoBehaviour
     public abstract string Name { get; }
     public enum Abilities
     {
-        Finger,
-        Hammer,
         Teleportation,
-        ShootAgain
+        Reshuffle
     }
     protected abstract Abilities _abilityType { get; }
     [SerializeField] private TextMeshProUGUI _amountField;
@@ -60,12 +58,6 @@ public abstract class Ability : MonoBehaviour
         _dummy.StopAllCoroutines();
         AbilityInUse = false;
         Finished?.Invoke();
-        //if (AbilityInUse)
-        //{
-        //    //_dummy.StopAllCoroutines();
-        //    AbilityInUse = false;
-        //    Finished?.Invoke();
-        //}
     }
 
     protected void InvokeFinished()
@@ -86,6 +78,7 @@ public abstract class Ability : MonoBehaviour
     protected virtual void Awake()
     {
         _button = transform.GetComponentInChildren<Button>();
+        Debug.Log(_button);
         _dummy = FindObjectOfType<AbilityUseDummy>(true);
         if (AbilityInUse)
             InvokeCanceled();

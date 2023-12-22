@@ -16,6 +16,20 @@ public class PlayerDeck : ArrowCardsDeck
     [SerializeField] private List<PrefabArrowTypePair> _prefabsList;
     [SerializeField] private HorizontalLayoutGroup _deckGroup;
 
+    public bool DeckUsed => _arrowCards.Where(a => a.Used).Count() > 0;
+
+    public void Reshuffle()
+    {
+        int amt = _arrowCards.Count;
+        foreach (Transform child in _deckGroup.transform)
+            Destroy(child.gameObject);
+        _arrowCards.Clear();
+
+        for (int i = 0; i < amt; i++)
+            _arrowCards.Add(new Arrow());
+        AwakeAdditionalSetup();
+    }
+
     protected override void AwakeAdditionalSetup()
     {
         foreach (var arrow in _arrowCards)
