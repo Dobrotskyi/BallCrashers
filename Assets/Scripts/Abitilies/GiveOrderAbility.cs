@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GiveOrderAbility : Ability
@@ -10,10 +9,31 @@ public class GiveOrderAbility : Ability
 
     protected override Abilities _abilityType => Abilities.Order;
 
+    private PlayerDeck _playerDeck;
+
     protected override IEnumerator Use()
     {
         InvokeStarted();
-        yield return new WaitForEndOfFrame();
-        InvokeFinished();
+        InteractableBall enemyBall;
+        while (AbilityInUse)
+        {
+            GameObject behindFinger = TouchInputs.GetObjectBehindFinger();
+            if (behindFinger)
+                if (behindFinger.TryGetComponent(out enemyBall))
+                {
+                    enemyBall.Select();
+                    _playerDeck.DisplayOtherDeck(enemyBall.GetComponent<EnemyDeck>());
+                    InvokeFinished();
+                }
+
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        _playerDeck = FindObjectOfType<PlayerDeck>(true);
     }
 }

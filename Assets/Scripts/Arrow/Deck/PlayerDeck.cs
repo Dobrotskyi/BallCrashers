@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,7 +20,11 @@ public class PlayerDeck : ArrowCardsDeck
 
     [SerializeField] private List<PrefabArrowTypePair> _prefabsList;
     [SerializeField] private HorizontalLayoutGroup _deckGroup;
+    [SerializeField] private HorizontalLayoutGroup _enemyDeckGroup;
     [SerializeField] private bool _startHidden = true;
+    [SerializeField] private TextMeshProUGUI _deckBelongsField;
+    [SerializeField] private Button _startRoundButton;
+
     private float _startHeight = 0;
 
     public bool DeckUsed => _arrowCards.Where(a => a.Used).Count() > 0;
@@ -79,6 +84,18 @@ public class PlayerDeck : ArrowCardsDeck
         AwakeAdditionalSetup();
     }
 
+    public void DisplayOtherDeck(EnemyDeck deck)
+    {
+        if (_enemyDeckGroup.transform.childCount != 0)
+            foreach (Transform child in _enemyDeckGroup.transform)
+                Destroy(child.gameObject);
+
+        SwitchDeckGroup();
+
+        foreach (var card in deck.ArrowDeck)
+            CreateEnemyCard(card);
+    }
+
     public void StartTurn()
     {
         StartCoroutine(MakeTurns());
@@ -89,9 +106,13 @@ public class PlayerDeck : ArrowCardsDeck
         int childIndex = 0;
         while (childIndex < _deckGroup.transform.childCount)
         {
-            _deckGroup.transform.GetChild(childIndex).GetComponent<PlayerArrowCard>().ShootPlayer();
-            TurnEnded?.Invoke();
-            childIndex++;
+            if (!Ability.AbilityInUse)
+            {
+                _deckGroup.transform.GetChild(childIndex).GetComponent<PlayerArrowCard>().ShootPlayer();
+                TurnEnded?.Invoke();
+                childIndex++;
+            }
+
             yield return new WaitForSeconds(2);
         }
         NoCards?.Invoke();
@@ -115,10 +136,35 @@ public class PlayerDeck : ArrowCardsDeck
         EndLevelPortal.Finished -= StopAllCoroutines;
     }
 
+    private void SwitchDeckGroup()
+    {
+        _deckGroup.gameObject.SetActive(!_deckGroup.gameObject.activeSelf);
+        _enemyDeckGroup.gameObject.SetActive(!_enemyDeckGroup.gameObject.activeSelf);
+        Debug.Log(_enemyDeckGroup);
+        if (_deckGroup.gameObject.activeSelf)
+        {
+            _deckBelongsField.text = "Your deck";
+            transform.GetComponentInChildren<ScrollRect>().content = _deckGroup.GetComponent<RectTransform>();
+            _startRoundButton.interactable = true;
+        }
+        else
+        {
+            _deckBelongsField.text = "Enemy deck";
+            transform.GetComponentInChildren<ScrollRect>().content = _enemyDeckGroup.GetComponent<RectTransform>();
+            _startRoundButton.interactable = false;
+        }
+    }
+
     private void CreateCard(Arrow arrow)
     {
         GameObject button = Instantiate(_prefabsList.Where(p => p.ArrowType == arrow.Type).First().Prefab, _deckGroup.transform);
         button.GetComponent<PlayerArrowCard>().SetArrow(arrow);
+    }
+
+    private void CreateEnemyCard(Arrow arrow)
+    {
+        GameObject button = Instantiate(_prefabsList.Where(p => p.ArrowType == arrow.Type).First().Prefab, _enemyDeckGroup.transform);
+        Destroy(button.transform.Find("ChangePlaceButtons").gameObject);
     }
 }
 

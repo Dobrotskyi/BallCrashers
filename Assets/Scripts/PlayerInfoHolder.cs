@@ -15,7 +15,7 @@ public static class PlayerInfoHolder
         {Ability.Abilities.Reshuffle, 0 },
         {Ability.Abilities.AddOne, 0 },
         {Ability.Abilities.Order, 0},
-        {Ability.Abilities.Hammer, 0 }
+        {Ability.Abilities.Hammer, 0 },
     };
 
     public static int GetAbilityPrice(Ability.Abilities ability) => PriceList[ability];

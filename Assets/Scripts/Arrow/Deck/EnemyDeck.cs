@@ -6,6 +6,9 @@ using UnityEngine;
 public class EnemyDeck : ArrowCardsDeck
 {
     private Rigidbody2D _rb;
+
+    public List<Arrow> ArrowDeck => _arrowCards;
+
     protected override void AwakeAdditionalSetup()
     {
         PlayerDeck.TurnEnded += MakeTurn;

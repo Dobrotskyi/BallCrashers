@@ -7,6 +7,7 @@ public class Interactable : MonoBehaviour
     [SerializeField] private AudioClip _destroyedAudioClip;
     private Animator _animator;
     private bool _triggerParam;
+    private AbilityHammer _hammer;
 
     public virtual void DestroySelf()
     {
@@ -31,21 +32,20 @@ public class Interactable : MonoBehaviour
 
     protected virtual void OnEnable()
     {
-        Ability ablity = FindObjectOfType<AbilityHammer>(true);
-        if (ablity != null)
+        _hammer = FindObjectOfType<AbilityHammer>(true);
+        if (_hammer != null)
         {
-            ablity.Started += StartInteractable;
-            ablity.Finished += StopInteractable;
+            _hammer.Started += StartInteractable;
+            _hammer.Finished += StopInteractable;
         }
     }
 
     protected virtual void OnDisable()
     {
-        Ability ablity = FindObjectOfType<AbilityHammer>(true);
-        if (ablity != null)
+        if (_hammer != null)
         {
-            ablity.Started -= StartInteractable;
-            ablity.Finished -= StopInteractable;
+            _hammer.Started -= StartInteractable;
+            _hammer.Finished -= StopInteractable;
         }
     }
 
