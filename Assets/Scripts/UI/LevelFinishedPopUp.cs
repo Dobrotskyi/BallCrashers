@@ -1,26 +1,41 @@
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
 public class LevelFinishedPopUp : MonoBehaviour
 {
-    [SerializeField] private GameObject _body;
+    public static bool Finished = false;
+    [SerializeField] private GameObject _passedBody;
+    [SerializeField] private GameObject _failedBody;
     [SerializeField] private TextMeshProUGUI _coinsRewardField;
 
     private void Awake()
     {
-        //EndLevelPortal.LevelFinished += OnGameOver;
+        Finished = false;
+        EndLevelPortal.Finished += OnGameOver;
+        PlayerDeck.NoCards += OnGameOver;
     }
 
     private void OnDestroy()
     {
-        //EndLevelPortal.LevelFinished -= OnGameOver;
+        EndLevelPortal.Finished -= OnGameOver;
+        PlayerDeck.NoCards -= OnGameOver;
     }
 
     private void OnGameOver()
     {
-        _body.SetActive(true);
-        _coinsRewardField.text = "+" + PlayerInfoHolder.REWARD;
-        PlayerInfoHolder.AddCoins(PlayerInfoHolder.REWARD);
-        PlayerInfoHolder.LevelIsPassed();
+        System.Threading.Thread.Sleep(10);
+
+        string winnerTag = FindObjectsOfType<PointsCounter>().OrderByDescending(c => c.Points).First().gameObject.tag;
+        Debug.Log(winnerTag);
+        if (winnerTag == "Player")
+        {
+            _passedBody.SetActive(true);
+            _coinsRewardField.text = "+" + PlayerInfoHolder.REWARD;
+            PlayerInfoHolder.AddCoins(PlayerInfoHolder.REWARD);
+            PlayerInfoHolder.LevelIsPassed();
+        }
+        else
+            _failedBody.SetActive(true);
     }
 }

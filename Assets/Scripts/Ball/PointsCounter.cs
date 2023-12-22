@@ -1,10 +1,10 @@
 using System;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class PointsCounter : MonoBehaviour
 {
-    public event Action<string> PointsAdded;
     public const int FOR_BALL_HIT = 1;
     public const int FOR_WALL_HIT = 2;
     public const int FOR_FINISH = 3;
@@ -14,7 +14,7 @@ public class PointsCounter : MonoBehaviour
         private set
         {
             _points = value;
-            PointsAdded?.Invoke(name);
+            _amtField.text = _points.ToString();
         }
         get
         {
@@ -23,6 +23,7 @@ public class PointsCounter : MonoBehaviour
     }
     private int _points = 0;
 
+    [SerializeField] private TextMeshProUGUI _amtField;
     private Vector2 _velocity;
     private Collider2D _triggerCollider;
     private Rigidbody2D _rb;

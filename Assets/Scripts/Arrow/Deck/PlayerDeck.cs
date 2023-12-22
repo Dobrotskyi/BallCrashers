@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class PlayerDeck : ArrowCardsDeck
 {
     public static event Action TurnEnded;
+    public static event Action NoCards;
 
     [Serializable]
     public struct PrefabArrowTypePair
@@ -43,7 +44,6 @@ public class PlayerDeck : ArrowCardsDeck
         float t = timeElapsed;
         while (timeElapsed < duration)
         {
-
             rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, Mathf.Lerp(startHeight, endValue, t));
 
             t = timeElapsed / duration;
@@ -94,12 +94,14 @@ public class PlayerDeck : ArrowCardsDeck
             childIndex++;
             yield return new WaitForSeconds(2);
         }
+        NoCards?.Invoke();
     }
 
     protected override void AwakeAdditionalSetup()
     {
         _startHeight = GetComponent<RectTransform>().sizeDelta.y;
-        EndLevelPortal.LevelFinished += StopAllCoroutines;
+        EndLevelPortal.Finished += StopAllCoroutines;
+
         if (_startHidden)
             HideDeck();
 
@@ -109,7 +111,7 @@ public class PlayerDeck : ArrowCardsDeck
 
     private void OnDestroy()
     {
-        EndLevelPortal.LevelFinished -= StopAllCoroutines;
+        EndLevelPortal.Finished -= StopAllCoroutines;
     }
 
     private void CreateCard(Arrow arrow)

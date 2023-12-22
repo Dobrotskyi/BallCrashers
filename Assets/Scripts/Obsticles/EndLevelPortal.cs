@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class EndLevelPortal : MonoBehaviour
 {
-    public static event Action LevelFinished;
+    public static event Action Finished;
 
     [SerializeField] private ParticleSystem _levelPassed;
     private AudioSource _as;
@@ -25,7 +25,7 @@ public class EndLevelPortal : MonoBehaviour
                 return;
 
             Instantiate(_levelPassed, transform.position, Quaternion.identity);
-            LevelFinished?.Invoke();
+            Finished?.Invoke();
             if (!SoundSettings.AudioMuted)
                 _as.Play();
             _finishedBalls.Add(collision.gameObject.name);
