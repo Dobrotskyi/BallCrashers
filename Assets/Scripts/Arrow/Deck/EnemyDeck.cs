@@ -8,13 +8,13 @@ public class EnemyDeck : ArrowCardsDeck
     private Rigidbody2D _rb;
     protected override void AwakeAdditionalSetup()
     {
-        PlayerArrowCard.PlayerMadeTurn += MakeTurn;
+        PlayerDeck.TurnEnded += MakeTurn;
         _rb = GetComponent<Rigidbody2D>();
     }
 
     private void OnDestroy()
     {
-        PlayerArrowCard.PlayerMadeTurn -= MakeTurn;
+        PlayerDeck.TurnEnded -= MakeTurn;
     }
 
     private void MakeTurn()
