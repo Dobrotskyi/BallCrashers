@@ -13,6 +13,7 @@ public class PlayerArrowCard : MonoBehaviour
     private Arrow _arrow;
     private bool _onCooldown;
     private Animator _animator;
+    private HorizontalLayoutGroup _deckGroup;
 
     public void SetArrow(Arrow arrow) => _arrow = arrow;
 
@@ -25,11 +26,28 @@ public class PlayerArrowCard : MonoBehaviour
         PlayerMadeTurn?.Invoke();
     }
 
+    public void GoLeft()
+    {
+        int index = transform.GetSiblingIndex();
+        if (index == 0) return;
+
+        transform.SetSiblingIndex(index - 1);
+    }
+
+    public void GoRight()
+    {
+        int index = transform.GetSiblingIndex();
+        if (index == transform.parent.childCount - 1) return;
+
+        transform.SetSiblingIndex(index + 1);
+    }
+
     private void Awake()
     {
         _playerRB = GameObject.FindWithTag("Player").GetComponent<Rigidbody2D>();
         var button = GetComponent<Button>();
         _animator = GetComponent<Animator>();
+        _deckGroup = GetComponentInParent<HorizontalLayoutGroup>();
         PlayerMadeTurn += OnTurn;
     }
 
