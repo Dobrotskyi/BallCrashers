@@ -62,6 +62,15 @@ public class GiveOrderAbility : Ability
         }
     }
 
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+
+        EnemyDeck enemyDeck = FindObjectOfType<EnemyDeck>();
+        if (enemyDeck && enemyDeck.GetUnused().Count <= 1)
+            _button.interactable = false;
+    }
+
     protected override void Awake()
     {
         base.Awake();
