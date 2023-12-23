@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -57,6 +58,26 @@ public class PlayerDeck : ArrowCardsDeck
             yield return new WaitForEndOfFrame();
         }
         rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, endValue);
+    }
+
+    public void ShowBasicCards()
+    {
+        if (!_enemyDeckGroup.gameObject.activeSelf)
+            SwitchDeckGroup();
+
+        foreach (Transform child in _enemyDeckGroup.transform)
+            Destroy(child.gameObject);
+
+        foreach (var prefab in _prefabsList.Select(p => p.Prefab))
+        {
+            Button button = Instantiate(prefab, _enemyDeckGroup.transform).GetComponent<Button>();
+            Destroy(button.transform.Find("ChangePlaceButtons").gameObject);
+            Destroy(button.GetComponent<PlayerArrowCard>());
+            button.onClick.AddListener(() =>
+            {
+                FindObjectOfType<GiveOrderAbility>(true).SetChangedArrow(_prefabsList[button.transform.GetSiblingIndex()].ArrowType);
+            });
+        }
     }
 
     public void AddOneRandom()
@@ -121,6 +142,7 @@ public class PlayerDeck : ArrowCardsDeck
     protected override void AwakeAdditionalSetup()
     {
         EndLevelPortal.Finished += StopAllCoroutines;
+        FindObjectOfType<GiveOrderAbility>(true).Finished += SwitchDeckGroup;
 
         RectTransform rectTr = GetComponent<RectTransform>();
         _startHeight = rectTr.sizeDelta.y;
@@ -134,13 +156,16 @@ public class PlayerDeck : ArrowCardsDeck
     private void OnDestroy()
     {
         EndLevelPortal.Finished -= StopAllCoroutines;
+        GiveOrderAbility ability = FindObjectOfType<GiveOrderAbility>(true);
+        if (ability)
+            ability.Finished -= SwitchDeckGroup;
     }
 
     private void SwitchDeckGroup()
     {
+        Debug.Log("SwithcDeckGroup");
         _deckGroup.gameObject.SetActive(!_deckGroup.gameObject.activeSelf);
         _enemyDeckGroup.gameObject.SetActive(!_enemyDeckGroup.gameObject.activeSelf);
-        Debug.Log(_enemyDeckGroup);
         if (_deckGroup.gameObject.activeSelf)
         {
             _deckBelongsField.text = "Your deck";
@@ -149,7 +174,7 @@ public class PlayerDeck : ArrowCardsDeck
         }
         else
         {
-            _deckBelongsField.text = "Enemy deck";
+            _deckBelongsField.text = "Select card to change";
             transform.GetComponentInChildren<ScrollRect>().content = _enemyDeckGroup.GetComponent<RectTransform>();
             _startRoundButton.interactable = false;
         }
@@ -163,8 +188,14 @@ public class PlayerDeck : ArrowCardsDeck
 
     private void CreateEnemyCard(Arrow arrow)
     {
-        GameObject button = Instantiate(_prefabsList.Where(p => p.ArrowType == arrow.Type).First().Prefab, _enemyDeckGroup.transform);
+        Button button = Instantiate(_prefabsList.Where(p => p.ArrowType == arrow.Type).First().Prefab, _enemyDeckGroup.transform).GetComponent<Button>();
         Destroy(button.transform.Find("ChangePlaceButtons").gameObject);
+        Destroy(button.GetComponent<PlayerArrowCard>());
+        button.onClick.AddListener(() =>
+        {
+            _deckBelongsField.text = "Select card to chane with";
+        });
+        button.AddComponent<EnemyArrowCard>();
     }
 }
 

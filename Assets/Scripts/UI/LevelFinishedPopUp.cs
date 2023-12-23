@@ -33,7 +33,17 @@ public class LevelFinishedPopUp : MonoBehaviour
         yield return new WaitForEndOfFrame();
         var pointTable = FindObjectsOfType<PointsCounter>().OrderByDescending(c => c.Points).ToArray();
         var firstPlace = pointTable[0];
-        var secondPlace = pointTable[1];
+        PointsCounter secondPlace = null;
+        if (pointTable.Length > 1)
+            secondPlace = pointTable[1];
+
+        if (secondPlace == null)
+        {
+            _passedBody.SetActive(true);
+            _coinsRewardField.text = "+" + PlayerInfoHolder.REWARD;
+            PlayerInfoHolder.AddCoins(PlayerInfoHolder.REWARD);
+            PlayerInfoHolder.LevelIsPassed();
+        }
 
         if ((firstPlace.gameObject.CompareTag("Player") && firstPlace.Points > 0) && (firstPlace.Points != secondPlace.Points))
         {

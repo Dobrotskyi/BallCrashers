@@ -7,7 +7,8 @@ public class CancelUsageButton : MonoBehaviour
     public static event Action AbilityCanceled;
     public void CancelUsage()
     {
-        AbilityCanceled?.Invoke();
+        if (Ability.AbilityInUse)
+            AbilityCanceled?.Invoke();
     }
 
     private void FixedUpdate()

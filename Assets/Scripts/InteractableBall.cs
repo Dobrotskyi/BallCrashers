@@ -38,5 +38,7 @@ public class InteractableBall : MonoBehaviour
     private void StopInteraction()
     {
         _animator.SetBool("Interacting", false);
+        if (_animator.GetBool("Selected"))
+            _animator.SetBool("Selected", false);
     }
 }

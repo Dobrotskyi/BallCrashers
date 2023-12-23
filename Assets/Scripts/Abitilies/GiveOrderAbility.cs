@@ -10,6 +10,20 @@ public class GiveOrderAbility : Ability
     protected override Abilities _abilityType => Abilities.Order;
 
     private PlayerDeck _playerDeck;
+    private EnemyDeck _selectedDeck;
+    private Arrow _changedArrow;
+    private int _selectedCardIndex = -1;
+
+    public void SetSelectedCardIndex(int index)
+    {
+        _selectedCardIndex = index;
+        _playerDeck.ShowBasicCards();
+    }
+
+    public void SetChangedArrow(Arrow.ArrowType arrowType)
+    {
+        _changedArrow = new(arrowType);
+    }
 
     protected override IEnumerator Use()
     {
@@ -18,13 +32,22 @@ public class GiveOrderAbility : Ability
         while (AbilityInUse)
         {
             GameObject behindFinger = TouchInputs.GetObjectBehindFinger();
-            if (behindFinger)
+            if (TouchInputs.TouchBegan() && behindFinger)
                 if (behindFinger.TryGetComponent(out enemyBall))
                 {
                     enemyBall.Select();
-                    _playerDeck.DisplayOtherDeck(enemyBall.GetComponent<EnemyDeck>());
-                    InvokeFinished();
+                    _selectedDeck = enemyBall.GetComponent<EnemyDeck>();
+                    _playerDeck.DisplayOtherDeck(_selectedDeck);
                 }
+
+            if (_selectedCardIndex != -1 && _changedArrow != null && _selectedDeck != null)
+            {
+                _selectedDeck.ArrowDeck[_selectedCardIndex] = _changedArrow;
+                _selectedCardIndex = -1;
+                _selectedDeck = null;
+                _changedArrow = null;
+                InvokeFinished();
+            }
 
             yield return new WaitForEndOfFrame();
         }
