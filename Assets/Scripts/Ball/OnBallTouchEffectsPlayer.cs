@@ -5,6 +5,7 @@ public class OnBallTouchEffectsPlayer : MonoBehaviour
 {
     protected AudioSource _as;
     [SerializeField] protected bool _destroyAfterTrigger;
+    [SerializeField] private bool _ignoreOnTriggerEnter;
     [SerializeField] private ParticleSystem _effect;
 
     protected virtual void Awake()
@@ -16,6 +17,8 @@ public class OnBallTouchEffectsPlayer : MonoBehaviour
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
+        if (_ignoreOnTriggerEnter) return;
+
         if (collision.transform.TryGetComponent(out Ball _))
         {
             Instantiate(_effect, transform.position, Quaternion.identity);

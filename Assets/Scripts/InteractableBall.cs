@@ -4,12 +4,22 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class InteractableBall : MonoBehaviour
 {
+    private static InteractableBall s_selected = null;
+
     private Animator _animator;
     private GiveOrderAbility _giveOrderAbility;
 
     public void Select()
     {
         _animator.SetBool("Selected", true);
+        s_selected = this;
+    }
+
+    private void FixedUpdate()
+    {
+        if (s_selected != null && s_selected != this)
+            if (_animator.GetBool("Selected"))
+                _animator.SetBool("Selected", false);
     }
 
     private void Awake()

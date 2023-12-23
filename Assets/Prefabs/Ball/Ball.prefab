@@ -260,6 +260,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _destroyAfterTrigger: 0
   _effect: {fileID: 19864940, guid: 82bf03917e16d3d4cad30518cca28308, type: 3}
+  _ignoreOnTriggerEnter: 1
 --- !u!114 &-6719336768556074242
 MonoBehaviour:
   m_ObjectHideFlags: 0

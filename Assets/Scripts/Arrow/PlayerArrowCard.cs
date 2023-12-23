@@ -25,6 +25,8 @@ public class PlayerArrowCard : MonoBehaviour
     {
         int index = transform.GetSiblingIndex();
         if (index == 0) return;
+        if (transform.parent.GetChild(index - 1).GetComponent<PlayerArrowCard>()._arrow.Used)
+            return;
 
         transform.SetSiblingIndex(index - 1);
     }
@@ -42,17 +44,37 @@ public class PlayerArrowCard : MonoBehaviour
         _playerRB = GameObject.FindWithTag("Player").GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _deckGroup = GetComponentInParent<HorizontalLayoutGroup>();
-        if (FindObjectOfType<PlayerDeck>().DeckUsed)
-        {
-            GetComponentsInChildren<Button>().ToList().ForEach(button => { button.interactable = false; });
-            _animator.SetBool("Blocked", true);
-        }
         PlayerDeck.TurnEnded += OnTurn;
     }
 
     private void OnDestroy()
     {
         PlayerDeck.TurnEnded -= OnTurn;
+    }
+
+    private void OnDisable()
+    {
+        GetComponentsInChildren<Button>().ToList().ForEach(button => { button.interactable = true; });
+        _animator.SetBool("Blocked", false);
+    }
+
+    private void OnEnable()
+    {
+        if (FindObjectOfType<PlayerDeck>().DeckUsed)
+        {
+            GetComponentsInChildren<Button>().ToList().ForEach(button => { button.interactable = false; });
+
+            if (_arrow != null && _arrow.Used)
+            {
+                _animator.SetBool("Blocked", false);
+                GetComponent<Button>().interactable = false;
+            }
+            else
+            {
+                GetComponent<Button>().interactable = true;
+                _animator.SetBool("Blocked", true);
+            }
+        }
     }
 
     private void OnTurn()

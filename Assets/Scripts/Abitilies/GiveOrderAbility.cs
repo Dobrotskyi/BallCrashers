@@ -13,10 +13,17 @@ public class GiveOrderAbility : Ability
     private EnemyDeck _selectedDeck;
     private Arrow _changedArrow;
     private int _selectedCardIndex = -1;
+    private Arrow _selectedArrow;
 
     public void SetSelectedCardIndex(int index)
     {
         _selectedCardIndex = index;
+        _playerDeck.ShowBasicCards();
+    }
+
+    public void SetSelectedCard(Arrow arrow)
+    {
+        _selectedArrow = arrow;
         _playerDeck.ShowBasicCards();
     }
 
@@ -40,10 +47,12 @@ public class GiveOrderAbility : Ability
                     _playerDeck.DisplayOtherDeck(_selectedDeck);
                 }
 
-            if (_selectedCardIndex != -1 && _changedArrow != null && _selectedDeck != null)
+            if (_selectedArrow != null && _changedArrow != null && _selectedDeck != null)
             {
-                _selectedDeck.ArrowDeck[_selectedCardIndex] = _changedArrow;
+                _selectedDeck.ArrowDeck[_selectedDeck.ArrowDeck.IndexOf(_selectedArrow)] = _changedArrow;
+
                 _selectedCardIndex = -1;
+                _selectedArrow = null;
                 _selectedDeck = null;
                 _changedArrow = null;
                 InvokeFinished();

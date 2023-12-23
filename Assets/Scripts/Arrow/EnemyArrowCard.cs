@@ -3,6 +3,8 @@ using UnityEngine.UI;
 
 public class EnemyArrowCard : MonoBehaviour
 {
+    public Arrow Arrow;
+
     private Button _button;
 
     private void OnEnable()
@@ -18,6 +20,7 @@ public class EnemyArrowCard : MonoBehaviour
 
     private void OnClick()
     {
-        FindObjectOfType<GiveOrderAbility>(true).SetSelectedCardIndex(_button.transform.GetSiblingIndex());
+        //FindObjectOfType<GiveOrderAbility>(true).SetSelectedCardIndex(_button.transform.GetSiblingIndex());
+        FindObjectOfType<GiveOrderAbility>(true).SetSelectedCard(Arrow);
     }
 }

@@ -35,23 +35,24 @@ public class PointsCounter : MonoBehaviour
             _velocityBeforeHit = _rb.velocity.normalized;
         else
         {
-            if (collision.TryGetComponent(out EndLevelPortal _) && !_finished)
+            if (!LevelFinishedPopUp.Finished)
             {
-                Points += FOR_FINISH;
-                Debug.Log($"{name} +{FOR_FINISH}");
-                _finished = true;
-            }
-            if (collision.gameObject.CompareTag("Bonus"))
-            {
-                Debug.Log($"{name}, +{FOR_WALL_HIT}");
-                Points += FOR_WALL_HIT;
+                if (collision.TryGetComponent(out EndLevelPortal _) && !_finished)
+                {
+                    Points += FOR_FINISH;
+                    _finished = true;
+                }
+                if (collision.gameObject.CompareTag("Bonus"))
+                {
+                    Points += FOR_WALL_HIT;
+                }
             }
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.transform.TryGetComponent(out Ball _))
+        if (collision.transform.TryGetComponent(out Ball _) && !LevelFinishedPopUp.Finished)
         {
             if (_velocityBeforeHit != Vector2.zero)
             {

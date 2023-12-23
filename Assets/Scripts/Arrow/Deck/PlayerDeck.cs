@@ -111,9 +111,10 @@ public class PlayerDeck : ArrowCardsDeck
             foreach (Transform child in _enemyDeckGroup.transform)
                 Destroy(child.gameObject);
 
-        SwitchDeckGroup();
+        if (!_enemyDeckGroup.gameObject.activeSelf)
+            SwitchDeckGroup();
 
-        foreach (var card in deck.ArrowDeck)
+        foreach (var card in deck.GetUnused())
             CreateEnemyCard(card);
     }
 
@@ -163,7 +164,6 @@ public class PlayerDeck : ArrowCardsDeck
 
     private void SwitchDeckGroup()
     {
-        Debug.Log("SwithcDeckGroup");
         _deckGroup.gameObject.SetActive(!_deckGroup.gameObject.activeSelf);
         _enemyDeckGroup.gameObject.SetActive(!_enemyDeckGroup.gameObject.activeSelf);
         if (_deckGroup.gameObject.activeSelf)
@@ -195,7 +195,9 @@ public class PlayerDeck : ArrowCardsDeck
         {
             _deckBelongsField.text = "Select card to chane with";
         });
-        button.AddComponent<EnemyArrowCard>();
+        button.AddComponent<EnemyArrowCard>().Arrow = arrow;
+        if (!button.interactable)
+            button.interactable = true;
     }
 }
 

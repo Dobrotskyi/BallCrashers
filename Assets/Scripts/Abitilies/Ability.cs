@@ -83,7 +83,10 @@ public abstract class Ability : MonoBehaviour
         _button = transform.GetComponentInChildren<Button>();
         _dummy = FindObjectOfType<AbilityUseDummy>(true);
         if (AbilityInUse)
+        {
+            Debug.Log("Invoke canceled");
             InvokeCanceled();
+        }
         CancelUsageButton.AbilityCanceled += InvokeCanceled;
         EndLevelPortal.Finished += InvokeCanceled;
         if (_priceField != null)

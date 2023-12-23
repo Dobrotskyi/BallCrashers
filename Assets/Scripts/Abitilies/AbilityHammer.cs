@@ -27,7 +27,6 @@ public class AbilityHammer : Ability, IInteractableAbility
             }
             else
             {
-                Debug.Log(TouchInputs.OverUINotClickthrough());
                 if (TouchInputs.TouchBegan() && !TouchInputs.OverUINotClickthrough())
                 {
                     Instantiate(_obstacle).transform.position = (Vector2)Camera.main.ScreenToWorldPoint(Input.touches[0].position);
