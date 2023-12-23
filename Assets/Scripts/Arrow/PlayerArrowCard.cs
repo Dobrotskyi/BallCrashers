@@ -45,11 +45,14 @@ public class PlayerArrowCard : MonoBehaviour
         _animator = GetComponent<Animator>();
         _deckGroup = GetComponentInParent<HorizontalLayoutGroup>();
         PlayerDeck.TurnEnded += OnTurn;
+        FindObjectOfType<RearrangeAbility>(true).Started += OnEnable;
     }
 
     private void OnDestroy()
     {
         PlayerDeck.TurnEnded -= OnTurn;
+        if (FindObjectOfType<RearrangeAbility>(true) != null)
+            FindObjectOfType<RearrangeAbility>(true).Started -= OnEnable;
     }
 
     private void OnDisable()
@@ -60,20 +63,37 @@ public class PlayerArrowCard : MonoBehaviour
 
     private void OnEnable()
     {
-        if (FindObjectOfType<PlayerDeck>().DeckUsed)
-        {
-            GetComponentsInChildren<Button>().ToList().ForEach(button => { button.interactable = false; });
+        _animator.SetBool("Blocked", false);
 
-            if (_arrow != null && _arrow.Used)
+        if (_arrow != null)
+        {
+            if (_arrow.Used)
             {
-                _animator.SetBool("Blocked", false);
                 GetComponent<Button>().interactable = false;
+                GetComponentsInChildren<Button>().ToList().ForEach(button => { button.interactable = false; });
             }
             else
             {
                 GetComponent<Button>().interactable = true;
-                _animator.SetBool("Blocked", true);
+                GetComponent<Button>().enabled = true;
+                GetComponentsInChildren<Button>().ToList().ForEach(button => { button.interactable = true; });
             }
+        }
+
+        if (FindObjectOfType<PlayerDeck>().TurnStarted)
+        {
+            GetComponentsInChildren<Button>().ToList().ForEach(button => { button.interactable = false; });
+            if (_arrow != null)
+            {
+                if (!_arrow.Used)
+                {
+                    GetComponent<Button>().interactable = true;
+                    _animator.SetBool("Blocked", true);
+                }
+            }
+            else
+                _animator.SetBool("Blocked", true);
+
         }
     }
 

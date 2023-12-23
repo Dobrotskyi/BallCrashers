@@ -6,7 +6,7 @@ public class OnBallTouchEffectsPlayer : MonoBehaviour
     protected AudioSource _as;
     [SerializeField] protected bool _destroyAfterTrigger;
     [SerializeField] private bool _ignoreOnTriggerEnter;
-    [SerializeField] private ParticleSystem _effect;
+    [SerializeField] protected ParticleSystem _effect;
 
     protected virtual void Awake()
     {

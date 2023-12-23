@@ -110,7 +110,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.33
+  m_Radius: 0.28
 --- !u!50 &7717331578893597931
 Rigidbody2D:
   serializedVersion: 4
@@ -259,8 +259,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyAfterTrigger: 0
-  _effect: {fileID: 19864940, guid: 82bf03917e16d3d4cad30518cca28308, type: 3}
   _ignoreOnTriggerEnter: 1
+  _effect: {fileID: 19864940, guid: 82bf03917e16d3d4cad30518cca28308, type: 3}
 --- !u!114 &-6719336768556074242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -625,7 +625,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 3
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.37126204, g: 0.764151, b: 0.4039506, a: 1}
   m_FlipX: 0
@@ -710,7 +710,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 0.8670661, b: 0, a: 1}
   m_FlipX: 0

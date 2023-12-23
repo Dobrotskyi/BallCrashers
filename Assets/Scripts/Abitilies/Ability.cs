@@ -17,7 +17,7 @@ public abstract class Ability : MonoBehaviour
     public enum Abilities
     {
         Teleportation,
-        Reshuffle,
+        Rearrange,
         AddOne,
         Hammer,
         Order

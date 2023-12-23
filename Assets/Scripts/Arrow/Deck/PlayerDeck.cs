@@ -19,6 +19,8 @@ public class PlayerDeck : ArrowCardsDeck
         public Arrow.ArrowType ArrowType;
     }
 
+    public bool TurnStarted { private set; get; } = false;
+
     [SerializeField] private List<PrefabArrowTypePair> _prefabsList;
     [SerializeField] private HorizontalLayoutGroup _deckGroup;
     [SerializeField] private HorizontalLayoutGroup _enemyDeckGroup;
@@ -27,6 +29,7 @@ public class PlayerDeck : ArrowCardsDeck
     [SerializeField] private Button _startRoundButton;
 
     private float _startHeight = 0;
+    private bool _paused;
 
     public bool DeckUsed => _arrowCards.Where(a => a.Used).Count() > 0;
 
@@ -80,6 +83,11 @@ public class PlayerDeck : ArrowCardsDeck
         }
     }
 
+    public void AllowRearrange()
+    {
+        TurnStarted = false;
+    }
+
     public void AddOneRandom()
     {
         Arrow newArrow = new();
@@ -120,7 +128,10 @@ public class PlayerDeck : ArrowCardsDeck
 
     public void StartTurn()
     {
-        StartCoroutine(MakeTurns());
+        TurnStarted = true;
+
+        if (!DeckUsed)
+            StartCoroutine(MakeTurns());
     }
 
     private IEnumerator MakeTurns()
@@ -128,7 +139,7 @@ public class PlayerDeck : ArrowCardsDeck
         int childIndex = 0;
         while (childIndex < _deckGroup.transform.childCount)
         {
-            if (!Ability.AbilityInUse)
+            if (!Ability.AbilityInUse && TurnStarted)
             {
                 _deckGroup.transform.GetChild(childIndex).GetComponent<PlayerArrowCard>().ShootPlayer();
                 TurnEnded?.Invoke();
