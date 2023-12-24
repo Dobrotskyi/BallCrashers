@@ -46,13 +46,18 @@ public static class TouchInputs
 
     public static GameObject GetObjectBehindFinger()
     {
+        return GetObjectBehidFinger(~LayerMask.GetMask("CamConfiner"));
+    }
+
+    public static GameObject GetObjectBehidFinger(LayerMask layerMask)
+    {
         if (OverUINotClickthrough())
             return null;
         if (Input.touches.Length == 0)
             return null;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.touches[0].position);
-        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
+        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity, layerMask);
         if (hit.collider != null)
             return hit.collider.gameObject;
 
