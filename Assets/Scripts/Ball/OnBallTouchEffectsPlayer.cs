@@ -44,4 +44,15 @@ public class OnBallTouchEffectsPlayer : MonoBehaviour
         if (collision.transform.TryGetComponent(out Ball _))
             Instantiate(_effect, collision.contacts[0].point, Quaternion.identity);
     }
+
+    protected void InstantiateEffect(Vector2 point)
+    {
+        ParticleSystem effect = Instantiate(_effect, point, Quaternion.identity);
+        if (effect.TryGetComponent(out AudioSource source))
+        {
+            source.volume = SoundSettings.EFFECTS_VOLUME;
+            if (!SoundSettings.AudioMuted)
+                source.enabled = true;
+        }
+    }
 }

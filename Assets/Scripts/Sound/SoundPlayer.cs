@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class SoundPlayer : MonoBehaviour
 {
-    //Music track: Donut by Lukrembo
+    //Music track: Vibing by Pufino
     //Source: https://freetouse.com/music
     //Music for Videos(Free Download)
     [SerializeField] private AudioSource _musicAS;
