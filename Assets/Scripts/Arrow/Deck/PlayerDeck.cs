@@ -174,19 +174,33 @@ public class PlayerDeck : ArrowCardsDeck
 
     private void SwitchDeckGroup()
     {
-        _deckGroup.gameObject.SetActive(!_deckGroup.gameObject.activeSelf);
-        _enemyDeckGroup.gameObject.SetActive(!_enemyDeckGroup.gameObject.activeSelf);
-        if (_deckGroup.gameObject.activeSelf)
+        if (Ability.AbilityInUse)
         {
-            _deckBelongsField.text = "Your deck";
-            transform.GetComponentInChildren<ScrollRect>().content = _deckGroup.GetComponent<RectTransform>();
-            _startRoundButton.interactable = true;
+            _deckGroup.gameObject.SetActive(!_deckGroup.gameObject.activeSelf);
+            _enemyDeckGroup.gameObject.SetActive(!_enemyDeckGroup.gameObject.activeSelf);
+            if (_deckGroup.gameObject.activeSelf)
+            {
+                _deckBelongsField.text = "Your deck";
+                transform.GetComponentInChildren<ScrollRect>().content = _deckGroup.GetComponent<RectTransform>();
+                _startRoundButton.interactable = true;
+            }
+            else
+            {
+                _deckBelongsField.text = "Select card to change";
+                transform.GetComponentInChildren<ScrollRect>().content = _enemyDeckGroup.GetComponent<RectTransform>();
+                _startRoundButton.interactable = false;
+            }
         }
         else
         {
-            _deckBelongsField.text = "Select card to change";
-            transform.GetComponentInChildren<ScrollRect>().content = _enemyDeckGroup.GetComponent<RectTransform>();
-            _startRoundButton.interactable = false;
+            if (!_deckGroup.gameObject.activeSelf)
+            {
+                _deckGroup.gameObject.SetActive(true);
+                _enemyDeckGroup.gameObject.SetActive(false);
+                _deckBelongsField.text = "Your deck";
+                transform.GetComponentInChildren<ScrollRect>().content = _deckGroup.GetComponent<RectTransform>();
+                _startRoundButton.interactable = true;
+            }
         }
     }
 

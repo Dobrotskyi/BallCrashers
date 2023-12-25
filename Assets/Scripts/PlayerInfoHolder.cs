@@ -12,10 +12,10 @@ public static class PlayerInfoHolder
     public static event Action CoinsAmtUpdated;
     public static Dictionary<Ability.Abilities, int> PriceList = new() {
         {Ability.Abilities.Teleportation, 350 },
-        {Ability.Abilities.Rearrange, 0 },
-        {Ability.Abilities.AddOne, 0 },
-        {Ability.Abilities.Order, 0},
-        {Ability.Abilities.Hammer, 0 },
+        {Ability.Abilities.Rearrange, 400 },
+        {Ability.Abilities.AddOne, 350 },
+        {Ability.Abilities.Order, 400},
+        {Ability.Abilities.Hammer, 350 },
     };
 
     public static int GetAbilityPrice(Ability.Abilities ability) => PriceList[ability];
