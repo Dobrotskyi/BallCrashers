@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GiveOrderAbility : Ability
 {
-    public override string Description => "Changes next turn of an enemy";
+    public override string Description => "Gives the ability to change one card of an enemy";
 
     public override string Name => "Order";
 
