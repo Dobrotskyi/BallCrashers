@@ -145,7 +145,6 @@ public class PlayerDeck : ArrowCardsDeck
                 TurnEnded?.Invoke();
                 childIndex++;
             }
-
             yield return new WaitForSeconds(2);
         }
         NoCards?.Invoke();

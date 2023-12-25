@@ -12,7 +12,6 @@ public class AbilityHammer : Ability, IInteractableAbility
 
     protected override IEnumerator Use()
     {
-        Debug.Log("InvokeStarted");
         InvokeStarted();
         Interactable selectedObject = null;
         while (AbilityInUse)

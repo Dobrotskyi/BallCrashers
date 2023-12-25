@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -7,7 +6,7 @@ public class PointsCounter : MonoBehaviour
 {
     public const int FOR_BALL_HIT = 1;
     public const int FOR_WALL_HIT = 2;
-    public const int FOR_FINISH = 3;
+    public const int FOR_FINISH = 4;
 
     public int Points
     {
@@ -59,7 +58,6 @@ public class PointsCounter : MonoBehaviour
                 float angle = Vector2.SignedAngle(_velocityBeforeHit, (collision.contacts[0].point - (Vector2)transform.position).normalized);
                 if (Mathf.Abs(angle) < 90)
                 {
-                    Debug.Log($"{name} + point");
                     Points += FOR_BALL_HIT;
                 }
                 _velocityBeforeHit = Vector2.zero;

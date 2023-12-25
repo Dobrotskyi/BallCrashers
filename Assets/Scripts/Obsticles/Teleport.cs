@@ -14,8 +14,8 @@ public class Teleport : OnBallTouchEffectsPlayer
             while (true)
             {
                 Vector2 endPoint = new Vector2(Random.Range(_minMaxX.x, _minMaxX.y), Random.Range(_minMaxY.x, _minMaxY.y));
-                Debug.Log(endPoint);
-                if (Physics2D.OverlapCircle(endPoint, collision.bounds.size.x / 2, ~LayerMask.GetMask("CamConfiner")) == null)
+                Collider2D collider = Physics2D.OverlapCircle(endPoint, collision.bounds.size.x / 2, ~LayerMask.GetMask("CamConfiner"));
+                if (collider == null || collider.isTrigger)
                 {
                     collision.transform.position = endPoint;
                     Instantiate(_effect, endPoint, Quaternion.identity);
