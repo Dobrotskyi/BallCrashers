@@ -21,7 +21,7 @@ public class OnBallTouchEffectsPlayer : MonoBehaviour
 
         if (collision.transform.TryGetComponent(out Ball _))
         {
-            Instantiate(_effect, transform.position, Quaternion.identity);
+            InstantiateEffect(transform.position);
             if (_destroyAfterTrigger)
                 DestroySelf();
         }
@@ -42,7 +42,7 @@ public class OnBallTouchEffectsPlayer : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.transform.TryGetComponent(out Ball _))
-            Instantiate(_effect, collision.contacts[0].point, Quaternion.identity);
+            InstantiateEffect(collision.contacts[0].point);
     }
 
     protected void InstantiateEffect(Vector2 point)
