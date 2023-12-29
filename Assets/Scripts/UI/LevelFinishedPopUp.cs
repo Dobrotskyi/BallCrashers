@@ -25,7 +25,8 @@ public class LevelFinishedPopUp : MonoBehaviour
 
     private void OnGameOver()
     {
-        StartCoroutine(ShowResults());
+        if (!Finished)
+            StartCoroutine(ShowResults());
     }
 
     private IEnumerator ShowResults()
